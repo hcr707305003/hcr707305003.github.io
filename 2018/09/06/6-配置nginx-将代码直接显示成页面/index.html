@@ -70,6 +70,8 @@
         
           <li class="navbar-list-item"><a href="/">首页</a></li>
         
+          <li class="navbar-list-item"><a href="/comment">comment</a></li>
+        
       </ul>
     </div>
   </div>
@@ -187,6 +189,24 @@
 
 
   
+  
+    <div class="valine-container comments-container content-padding--primary soft-size--large soft-style--box">
+      <div id="valine_thread" class="valine-thread"></div>
+    </div>
+    <script type="text/javascript" src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script type="text/javascript" src='//unpkg.com/valine/dist/Valine.min.js'></script>
+    <script type="text/javascript">
+      new Valine({
+        el: "#valine_thread",
+        appId: "yQh0wX74jtCEvKqsgkYRE4SY-gzGzoHsz",
+        appKey: "Dg5eSviC94f7xAG6gLs1BeOx",
+        avatar: "mm",
+        placeholder: "随便说点什么叭～",
+        notify: true,
+        visitor: true,
+        pageSize: 10,
+      });
+    </script>
   
 
   
