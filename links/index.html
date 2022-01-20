@@ -22,7 +22,7 @@
 
   
 
-  <title>21.PHP设计者模式-&gt;建造者模式 | Shiroi blog</title>
+  <title>links | Shiroi blog</title>
 
   
 
@@ -43,7 +43,7 @@
   <div class="root-container">
     
 <!-- header container -->
-<header class="header-container post">
+<header class="header-container">
   
     <div class="post-image" style="background-image: url(https://w.wallhaven.cc/full/pk/wallhaven-pkw6y3.jpg)"></div>
   
@@ -91,224 +91,57 @@
 
   
   
-    <div class="header-content">
-      <div class="post-text layout-block">
-        <div class="layout-margin">
-          <h1 class="title-wrap">21.PHP设计者模式-&gt;建造者模式</h1>
-          <h2 class="title-sub-wrap">
-            <strong>Shiroi</strong>
-            <span>发布于</span>
-            <time  class="article-date" datetime="2019-11-17T20:44:19.000Z" itemprop="datePublished">2019-11-18</time>
-          </h2>
-          <ul class="wrap-list dark">
-  
-</ul>
-          <ul class="wrap-list dark">
-  
-</ul>
-        </div>
-      </div>
-    </div>
-  
 
   
+  
+    <div class="header-content">
+      <div class="post-text layout-block layout-padding">
+        <h1 class="title-wrap">links</h1>
+        
+      </div>
+    </div>
   
   
 </header>
 
-    <!-- 文章 -->
+    <!-- 分页(其他自定义页面) -->
 
-<!-- 文章内容 -->
+<!-- 自定义页面 -->
+
 <div class="body-container">
   <article class="content-container layout-block post-container">
     <div class="article-info">
       
-      
-      
-      
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <ol>
-<li>一个主体有多个结构(例如小白(一个人)：会说多少种语言、肤色、发色、家境、家里多少口人、性格、有木有配偶等等)</li>
-<li>我们就要针对这个人返回这个人的所有结构</li>
-<li>这个人每个结构处理方式不同</li>
-<li>那么我们就要决定这个人究竟是什么人</li>
-</ol>
-<hr>
-<p><strong>这里就以卢本伟为案例</strong></p>
-<pre><code>/**具体产品角色  人
- * Class Bird
- */
-class Person
-&#123;
-    public $_language;
-    public $_skin;
-    public $_hair;
-    public $_family;
-    public $_population;
-    public $_nature;
-    public $_marriage;
- 
-    function show()
-    &#123;
-        echo &quot;会的语言:&#123;$this-&gt;_language&#125;&lt;br/&gt;&quot;;
-        echo &quot;肤色:&#123;$this-&gt;_skin&#125;&lt;br/&gt;&quot;;
-        echo &quot;发色:&#123;$this-&gt;_hair&#125;&lt;br/&gt;&quot;;
-        echo &quot;家境:&#123;$this-&gt;_family&#125;&lt;br/&gt;&quot;;
-        echo &quot;人口:&#123;$this-&gt;_population&#125;&lt;br/&gt;&quot;;
-        echo &quot;性格:&#123;$this-&gt;_nature&#125;&lt;br/&gt;&quot;;
-        echo &quot;婚姻关系:&#123;$this-&gt;_marriage&#125;&lt;br/&gt;&quot;;
-    &#125;
-&#125;
- 
-/**人的建造者(生成器)
- * Class BirdBuilder
- */
-abstract class PersonBuilder
-&#123;
-    protected $_person;
- 
-    function __construct()
-    &#123;
-        $this-&gt;_person=new Person();
-    &#125;
- 
-    abstract function BuildLanguage();//语言
-    abstract function BuildSkin();//肤色
-    abstract function BuildHair();//发色
-    abstract function BuildFamily();//家境
-    abstract function BuildPopulation();//人口
-    abstract function BuildNature();//性格
-    abstract function BuildMarriage();//婚姻关系
-    abstract function GetPerson();//获取人物所有信息
-&#125;
- 
-/**具体人的建造者(生成器)   卢本伟(55开)
- * Class BlueBird
- */
-class LuBenWei extends PersonBuilder
-&#123;
-    function BuildLanguage()
-    &#123;
-        $this-&gt;_person-&gt;_language=&quot;会骚话、臭嗨话&quot;;
-    &#125;
- 
-    function BuildSkin()
-    &#123;
-        $this-&gt;_person-&gt;_skin=&quot;卢本伟什么肤色都有&quot;;
-    &#125;
- 
-    function BuildHair()
-    &#123;
-        $this-&gt;_person-&gt;_hair=&quot;卢本伟是个光头&quot;;
-    &#125;
-    
-    function BuildFamily()
-    &#123;
-        $this-&gt;_person-&gt;_family=&quot;卢本伟富得流油&quot;;
-    &#125;
-    
-    function BuildPopulation()
-    &#123;
-        $this-&gt;_person-&gt;_population=&quot;卢本伟是个孤儿&quot;;
-    &#125;
-    
-    function BuildNature()
-    &#123;
-        $this-&gt;_person-&gt;_nature=&quot;卢本伟帅的一批、卢本伟不跟你多BB&quot;;
-    &#125;
-    
-    function BuildMarriage()
-    &#123;
-        $this-&gt;_person-&gt;_marriage=&quot;卢本伟有个白富美老婆&quot;;
-    &#125;
- 
-    function GetPerson()
-    &#123;
-        return $this-&gt;_person;
-    &#125;
-&#125;
- 
- 
-/**指挥者
- * Class Director
- */
-class Director
-&#123;
-    /**
-     * @param $_builder      建造者
-     * @return mixed         产品类：人
-     */
-    function Construct($_builder)
-    &#123;
-        $_builder-&gt;BuildLanguage();
-        $_builder-&gt;BuildSkin();
-        $_builder-&gt;BuildHair();
-        $_builder-&gt;BuildFamily();
-        $_builder-&gt;BuildPopulation();
-        $_builder-&gt;BuildNature();
-        $_builder-&gt;BuildMarriage();
-        return $_builder-&gt;GetPerson();
-    &#125;
-&#125;
-
-
-$director=new Director();
-echo &quot;卢本伟的人物信息：&lt;hr/&gt;&quot;;
-$lubenwei=$director-&gt;Construct(new LuBenWei());
-$lubenwei-&gt;show();
-</code></pre>
-<hr>
-<pre><code>//执行的结果
-卢本伟的人物信息：
-会的语言:会骚话、臭嗨话
-肤色:卢本伟什么肤色都有
-发色:卢本伟是个光头
-家境:卢本伟富得流油
-人口:卢本伟是个孤儿
-性格:卢本伟帅的一批、卢本伟不跟你多BB
-婚姻关系:卢本伟有个白富美老婆
-</code></pre>
+        <h3 id="申请方式："><a href="#申请方式：" class="headerlink" title="申请方式："></a>申请方式：</h3><p>先将本站的友链添加到您的友链，相关信息如下<br>然后按照以下格式在本站留言区留言，待博主为您添上<br>友链名称：Shiroi<br>头像链接：<a target="_blank" rel="noopener" href="http://p3.music.126.net/_0-y4_diDooN18-z4XVTWQ==/109951166348336124.jpg?param=50y50">http://p3.music.126.net/_0-y4_diDooN18-z4XVTWQ==/109951166348336124.jpg?param=50y50</a><br>主页链接：<a target="_blank" rel="noopener" href="https://shiroi.top/">https://shiroi.top/</a><br>描述信息：没有未来的未来不是我想要的未来</p>
 
       </section>
 
       
       
-        <nav class="article-nav">
+        <section class="page-link-container">
           
-            <div class="article-nav-item layout-padding">
-  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
-    
-    <div class="card-text">
-      
-        <a href="/2020/04/17/22-%E7%AE%80%E5%8D%95%E5%AE%9E%E7%8E%B0%E6%97%A0%E9%99%90%E6%9E%81/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">22.简单实现无限极</h2>
-        </a>
-      
-      <div class="card-text--row">Newer</div>
-    </div>
-  </article>
-</div>
+            <div class="link-item layout-padding">
+              <a href="https://shiroi.top/" title="Shiroi" class="content-padding--primary soft-size--primary soft-style--box" target="_blank" rel="noopener noreferrer">
+                
+                <img src="http://p3.music.126.net/_0-y4_diDooN18-z4XVTWQ==/109951166348336124.jpg?param=50y50" alt="Shiroi" class="soft-size--round soft-style--box">
+                
+                <div>
+                  <h4 class="text-ellipsis">Shiroi</h4>
+                  
+                  <p class="text-ellipsis">没有未来的未来不是我想要的未来</p>
+                  
+                </div>
+              </a>
+            </div>
           
-          
-            <div class="article-nav-item layout-padding">
-  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
-    
-    <div class="card-text">
-      
-        <a href="/2019/11/18/20-PHP%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">20.PHP设计模式-&gt;观察者模式</h2>
-        </a>
-      
-      <div class="card-text--row">Older</div>
-    </div>
-  </article>
-</div>
-          
-        </nav>
+        </section>
       
 
-      <section class="page-message-container layout-padding">
-        
+      
+      
+        <section class="page-message-container layout-padding">
+          
 
 
   
@@ -336,7 +169,8 @@ $lubenwei-&gt;show();
   
 
 
-      </section>
+        </section>
+      
     </div>
     <div class="widget-info">
       <section class="widget-author widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
@@ -373,8 +207,6 @@ $lubenwei-&gt;show();
     </div>
   </div>
 </section>
-
-      
 
       
 <section class="widet-notice widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
@@ -420,6 +252,7 @@ $lubenwei-&gt;show();
     </div>
   </article>
 </div>
+
 
     <!-- footer container -->
 <footer id="footer" class="footer">
