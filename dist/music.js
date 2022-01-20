@@ -10,6 +10,12 @@ const ap = new APlayer({
         cover: 'http://q1.qlogo.cn/g?b=qq&nk=1305192757&s=100&t=1642594263',
       },
       {
+        name: "Dream Lantern",
+        artist: 'RADWIMPS',
+        url: 'https://www.ytmp3.cn/down/73519.mp3',
+        cover: 'http://p2.music.126.net/sSxbRt9RpC6s_MaewyDJfA==/18597139672292692.jpg?param=60y60',
+      },
+      {
         name: 'being',
         artist: 'KOTOKO',
         url: 'https://www.ytmp3.cn/down/36139.mp3',
