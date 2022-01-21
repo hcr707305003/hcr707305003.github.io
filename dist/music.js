@@ -10,6 +10,12 @@ const ap = new APlayer({
         cover: 'http://q1.qlogo.cn/g?b=qq&nk=1305192757&s=100&t=1642594263',
       },
       {
+        name: "Hopes and Dreams",
+        artist: 'Toby Fox',
+        url: 'https://www.ytmp3.cn/down/37304.mp3',
+        cover: 'https://p1.music.126.net/oZe-JSuWYAR8zSa29g9g0g==/3254554423361647.jpg?param=60y60',
+      },
+      {
         name: "Dream Lantern",
         artist: 'RADWIMPS',
         url: 'https://www.ytmp3.cn/down/73519.mp3',
