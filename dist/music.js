@@ -1,31 +1,31 @@
 const ap = new APlayer({
-    container: document.getElementById('aplayer'),
-    fixed: true,
-    autoplay: false,
-    audio: [
-      {
-        name: "Tobu-Candyland",
-        artist: 'Various Artists',
-        url: 'https://www.ytmp3.cn/down/38422.mp3',
-        cover: 'http://q1.qlogo.cn/g?b=qq&nk=1305192757&s=100&t=1642594263',
-      },
-      {
-        name: "Hopes and Dreams",
-        artist: 'Toby Fox',
-        url: 'https://www.ytmp3.cn/down/37304.mp3',
-        cover: 'https://p1.music.126.net/oZe-JSuWYAR8zSa29g9g0g==/3254554423361647.jpg?param=60y60',
-      },
-      {
-        name: "Dream Lantern",
-        artist: 'RADWIMPS',
-        url: 'https://www.ytmp3.cn/down/73519.mp3',
-        cover: 'http://p2.music.126.net/sSxbRt9RpC6s_MaewyDJfA==/18597139672292692.jpg?param=60y60',
-      },
-      {
-        name: 'being',
-        artist: 'KOTOKO',
-        url: 'https://www.ytmp3.cn/down/36139.mp3',
-        cover: 'http://p2.music.126.net/yGwX-aQA5SweqV0BuSe5Kw==/109951163117817799.jpg?param=60y60',
-      }
-    ]
+  container: document.getElementById('aplayer'),
+  fixed: true,
+  autoplay: false,
+  audio: [
+    {
+      name: "Daisy",
+      artist: '境界的彼方',
+      url: 'https://data.mp3-banana.pro/play-track/333131b3b030323734883731353332b634b1340100/cb5ecde160f7ffb8a8e23858275faf0a/0.mp3',
+      cover: 'https://p3fx.kgimg.com/stdmusic/240/20210113/20210113041630995040.jpg',
+    },
+    {
+      name: "oblivious",
+      artist: 'Kalafina',
+      url: 'https://data.mp3-banana.pro/play-track/33373432b334378b373534323635b7340600/eb51c74b7822545263f63f3b7605d370/0.mp3',
+      cover: '//y.qq.com/music/photo_new/T002R300x300M000001eNSk10EjpBz_2.jpg?max_age=2592000',
+    },
+    {
+      name: "being",
+      artist: 'KOTOKO',
+      url: 'https://data.mp3-banana.pro/play-track/33323631363536358fb7b0b034333232340400/9ab752ee1636d4fc06811fbc232b1523/0.mp3',
+      cover: '//y.qq.com/music/photo_new/T002R300x300M00000283Pae1B412l_1.jpg?max_age=2592000',
+    },
+    {
+      name: "Now Loading!!!!",
+      artist: '高田忧希、山口爱、户田惠、竹尾步美',
+      url: 'https://data.mp3-banana.pro/play-track/d33531303036333531893731353332b63432340500/f891b9d11a644a15920aec984e0ba5e2/2.mp3',
+      cover: '//y.qq.com/music/photo_new/T002R300x300M0000033MkZL3GaqMv_1.jpg?max_age=2592000',
+    }
+  ]
 });
