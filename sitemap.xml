@@ -504,6 +504,13 @@
   </url>
   
   <url>
+    <loc>https://hcr707305003.github.io/tags/curl/</loc>
+    <lastmod>2026-08-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://hcr707305003.github.io/tags/nginx/</loc>
     <lastmod>2026-08-19</lastmod>
     <changefreq>weekly</changefreq>
@@ -519,13 +526,6 @@
   
   <url>
     <loc>https://hcr707305003.github.io/tags/ssl/</loc>
-    <lastmod>2026-08-19</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://hcr707305003.github.io/tags/curl/</loc>
     <lastmod>2026-08-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
