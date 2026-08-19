@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="theme-color" content="#3367D6"/>
+  <link rel="apple-touch-icon" href="/icons-192.png">
+  <link rel="manifest" href="/manifest.json">
+  
+  <meta name="generator" content="Hexo 6.3.0">
+
+  
+
+  
+
+  
+    <meta name="author" content="Shiroi">
+  
+
+  
+
+  
+
+  <title>37-用AI从零搭建AI聚合平台的架构心得 | Shiroi blog</title>
+
+  
+    <link rel="alternate" href="/atom.xml" title="Shiroi blog" type="application/atom+xml">
+  
+
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+  
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@1.1.3/index.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlightjs@9.16.2/styles/monokai.css">
+  
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+</head>
+<body>
+  <div class="root-container">
+    
+<!-- header container -->
+<header class="header-container post">
+  
+    <div class="post-image" style="background-image: url(https://w.wallhaven.cc/full/pk/wallhaven-pkw6y3.jpg)"></div>
+  
+
+  <!-- navbar -->
+<nav class="navbar">
+  <div class="navbar-content">
+    <!-- logo -->
+    <div class="navbar-logo">
+      <a href="/">
+        
+          Shiroi blog
+        
+      </a>
+    </div>
+    <!-- link -->
+    <div class="navbar-link">
+      <div class="navbar-btn">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+      <ul class="navbar-list">
+        
+          <li class="navbar-list-item"><a href="/">home</a></li>
+        
+          <li class="navbar-list-item"><a href="/links">links</a></li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+    <div class="header-content">
+      <div class="post-text layout-block">
+        <div class="layout-margin">
+          <h1 class="title-wrap">37-用AI从零搭建AI聚合平台的架构心得</h1>
+          <h2 class="title-sub-wrap">
+            <strong>Shiroi</strong>
+            <span>发布于</span>
+            <time  class="article-date" datetime="2026-08-19T07:30:00.000Z" itemprop="datePublished">2026-08-19</time>
+          </h2>
+          <ul class="wrap-list dark">
+  
+    <li><a href="/categories/%E5%B7%A5%E4%BD%9C%E5%BF%83%E5%BE%B7/">📒 工作心德</a></li>
+  
+</ul>
+          <ul class="wrap-list dark">
+  
+    <li><a href="/tags/ai/">🏷️ ai</a></li>
+  
+    <li><a href="/tags/webman/">🏷️ webman</a></li>
+  
+    <li><a href="/tags/%E5%BF%83%E5%BE%97/">🏷️ 心得</a></li>
+  
+    <li><a href="/tags/vue3/">🏷️ vue3</a></li>
+  
+    <li><a href="/tags/%E6%9E%B6%E6%9E%84/">🏷️ 架构</a></li>
+  
+</ul>
+        </div>
+      </div>
+    </div>
+  
+
+  
+  
+  
+</header>
+
+    <!-- 文章 -->
+
+<!-- 文章内容 -->
+<div class="body-container">
+  <article class="content-container layout-block post-container">
+    <div class="article-info">
+      
+      
+      
+      
+      <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
+        <p> 用 AI 从零搭了一个企业级全栈项目——AI 朋友圈（AI 聚合管理平台），后端 webman + PostgreSQL + Redis，前端 Vue3 + Arco Design，一共 5 个模块，从立项到上线比预期快了一倍多。这篇记录用 AI 做架构设计的心得。</p>
+<h2 id="1-让-AI-当架构师，而不是打字员"><a href="#1-让-AI-当架构师，而不是打字员" class="headerlink" title="1. 让 AI 当架构师，而不是打字员"></a>1. 让 AI 当架构师，而不是打字员</h2><p>  很多人用 AI 只让它写函数、写页面，这是浪费。架构阶段才是 AI 价值最大的地方——你给它约束，它能给你一版像样的整体设计，而且比人脑考虑得更全。</p>
+<p>  立项时我直接让 AI 出方案：</p>
+  <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">我要做一个 AI 内容生成平台，核心功能：</span><br><span class="line">1. AI 生成文案/海报/视频</span><br><span class="line">2. 用户作品管理、会员系统、积分奖励、模板管理</span><br><span class="line">技术栈：后端 PHP，要求高性能常驻内存；前端 Vue3；数据库 PostgreSQL + Redis 缓存。</span><br><span class="line">请给我：</span><br><span class="line">- 模块划分和目录结构</span><br><span class="line">- 数据库表设计（重点：会员、积分、模板）</span><br><span class="line">- 后端分层架构规范</span><br><span class="line">- 部署方案（要求 Docker）</span><br></pre></td></tr></table></figure>
+
+<p>  AI 给了一版相当完整的方案，我在上面改了两轮就定了。最后落地的架构：</p>
+  <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">backend/    # API 服务（webman，REST API，PostgreSQL/Redis）</span><br><span class="line">frontend/   # 后台管理 SPA（Vue3 + Vite + Arco Design）</span><br><span class="line">web/        # 官网首页（纯静态，SEO 落地页）</span><br><span class="line">h5/         # 移动端子站（React，App 内嵌/微信分享）</span><br><span class="line">invite/     # 邀请页面（纯静态，调后端接口）</span><br></pre></td></tr></table></figure>
+
+<p>  心得：<strong>AI 是很好的架构师，前提是你给它足够的业务约束。约束越具体，方案越靠谱。</strong></p>
+<h2 id="2-分层架构：让-AI-按规范产出，代码才不乱"><a href="#2-分层架构：让-AI-按规范产出，代码才不乱" class="headerlink" title="2. 分层架构：让 AI 按规范产出，代码才不乱"></a>2. 分层架构：让 AI 按规范产出，代码才不乱</h2><p>  PHP 项目最怕写着写着变成一坨。立项时就让 AI 定分层规范，之后所有功能都按这个骨架生成：</p>
+  <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Controller → Logic → Service → Model</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Controller：只做参数接收和响应返回</li>
+<li>Logic：业务编排</li>
+<li>Service：核心业务逻辑</li>
+<li>Model：数据访问</li>
+</ul>
+<p>  每让 AI 写一个接口，都要求它按这个分层拆，结果就是几千行代码下来结构依然清晰，后面加功能、改需求都很快。</p>
+<p>  心得：<strong>AI 写代码本身不产生架构，规范才产生架构。规范定在前，AI 只是执行者。</strong></p>
+<h2 id="3-让-AI-同时生成前后端，契约先行"><a href="#3-让-AI-同时生成前后端，契约先行" class="headerlink" title="3. 让 AI 同时生成前后端，契约先行"></a>3. 让 AI 同时生成前后端，契约先行</h2><p>  传统开发最痛的是前后端联调：接口对不上、字段名不一致、返回结构不统一。用 AI 之后，我让 AI 先把接口契约定死：</p>
+  <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">请设计&quot;作品列表&quot;接口：</span><br><span class="line">- 请求参数、响应结构、错误码、分页字段</span><br><span class="line">- 同时给出后端路由定义和前端 TypeScript 类型定义</span><br></pre></td></tr></table></figure>
+
+<p>  后端按契约实现，前端按同一份契约写类型，联调时基本一遍过。数据库表结构也让 AI 同步生成迁移文件和 Model，字段名全程统一。</p>
+<p>  心得：<strong>AI 做”翻译”很弱，但做”契约生成”很强。让同一份描述同时产出前后端代码，等于自动对齐了接口。</strong></p>
+<h2 id="4-常驻进程框架的坑：AI-默认按”请求-响应”思维写"><a href="#4-常驻进程框架的坑：AI-默认按”请求-响应”思维写" class="headerlink" title="4. 常驻进程框架的坑：AI 默认按”请求-响应”思维写"></a>4. 常驻进程框架的坑：AI 默认按”请求-响应”思维写</h2><p>  webman 是常驻内存框架，和传统 PHP（php-fpm）的思维完全不同。AI 一开始经常写出这样的问题代码：</p>
+<ul>
+<li>在类属性里缓存用户数据（常驻进程下会串数据）；</li>
+<li>用全局变量存临时状态（下一个请求还留着）；</li>
+<li>不知道进程里定时任务、队列、WebSocket 是长期运行的，写了死循环式轮询。</li>
+</ul>
+<p>  解决方式：在项目文档里写明框架特性，并让 AI 生成代码时遵守：</p>
+  <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">注意：本项目使用 webman 常驻内存框架。</span><br><span class="line">- 禁止在类属性/全局变量中存储请求级数据</span><br><span class="line">- 涉及用户上下文的数据必须从请求对象获取</span><br><span class="line">- 后台任务使用 process 进程，不要用 sleep 轮询</span><br></pre></td></tr></table></figure>
+
+<p>  心得：<strong>给 AI 的上下文里，框架特性比代码示例更重要。它不懂的框架，你得先喂规则。</strong></p>
+<h2 id="5-AI-生成静态页是降维打击"><a href="#5-AI-生成静态页是降维打击" class="headerlink" title="5. AI 生成静态页是降维打击"></a>5. AI 生成静态页是降维打击</h2><p>  5 个模块里，web（官网）和 invite（邀请页）是纯静态页面，这两个模块 AI 基本一把梭：我给它产品卖点、文案风格、配色，它直接生成完整页面，还自带 SEO 标签（OG 标签、Schema.org JSON-LD、站点地图）。</p>
+<p>  这类”没有复杂逻辑、只有展示”的页面，AI 产出质量非常高，人工只需要调调细节。</p>
+<p>  心得：<strong>把项目里”简单重复”的部分识别出来交给 AI，把精力留给”有业务深度”的部分。</strong></p>
+<h2 id="6-让-AI-帮写部署脚本"><a href="#6-让-AI-帮写部署脚本" class="headerlink" title="6. 让 AI 帮写部署脚本"></a>6. 让 AI 帮写部署脚本</h2><p>  项目上线要 Docker 化，Dockerfile、docker-compose、Jenkins 这些我以前都是复制粘贴改，这次直接让 AI 写：</p>
+  <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">请为这个 webman 项目写 Dockerfile：</span><br><span class="line">- PHP 8.2 环境，装好 pdo_pgsql、redis 扩展</span><br><span class="line">- 多阶段构建，安装 composer 依赖</span><br><span class="line">- 顺便给一份 docker-compose.yml，包含 postgres 和 redis 服务</span><br></pre></td></tr></table></figure>
+
+<p>  出来的脚本可以直接跑，节省了大量时间。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>  用 AI 做全栈项目的正确姿势，是把 AI 放在”设计-生成-校验”的循环里：</p>
+<blockquote>
+<p><strong>你定架构、定契约、定规范，AI 负责把每一块高质量落地。人机各干各擅长的。</strong></p>
+</blockquote>
+
+      </section>
+
+      
+      
+        <nav class="article-nav">
+          
+            <div class="article-nav-item layout-padding">
+  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
+    
+    <div class="card-text">
+      
+        <a href="/2026/08/19/36-%E7%94%A8AI%E7%BB%B4%E6%8A%A4%E4%BC%81%E4%B8%9AOA%E7%B3%BB%E7%BB%9F%E7%9A%84%E8%A1%80%E6%B3%AA%E5%BF%83%E5%BE%97/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">36-用AI维护企业OA系统的血泪心得</h2>
+        </a>
+      
+      <div class="card-text--row">Newer</div>
+    </div>
+  </article>
+</div>
+          
+          
+            <div class="article-nav-item layout-padding">
+  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
+    
+    <div class="card-text">
+      
+        <a href="/2026/08/19/38-%E5%BC%80%E5%8F%91AI%E5%86%85%E5%AE%B9%E7%94%9F%E6%88%90%E5%B9%B3%E5%8F%B0%E7%9A%84%E5%B7%A5%E7%A8%8B%E5%BF%83%E5%BE%97/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">38-开发AI内容生成平台的工程心得</h2>
+        </a>
+      
+      <div class="card-text--row">Older</div>
+    </div>
+  </article>
+</div>
+          
+        </nav>
+      
+
+      <section class="page-message-container layout-padding">
+        
+
+
+  
+  
+    <div class="valine-container comments-container content-padding--primary soft-size--large soft-style--box">
+      <div id="valine_thread" class="valine-thread"></div>
+    </div>
+    <script type="text/javascript" src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script type="text/javascript" src='//unpkg.com/valine/dist/Valine.min.js'></script>
+    <script type="text/javascript">
+      new Valine({
+        el: "#valine_thread",
+        appId: "yQh0wX74jtCEvKqsgkYRE4SY-gzGzoHsz",
+        appKey: "Dg5eSviC94f7xAG6gLs1BeOx",
+        avatar: "mm",
+        placeholder: "随便说点什么叭～",
+        notify: true,
+        visitor: true,
+        pageSize: 10,
+      });
+    </script>
+  
+
+  
+  
+
+
+      </section>
+    </div>
+    <div class="widget-info">
+      <section class="widget-author widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-body">
+    
+      <img src="http://p3.music.126.net/_0-y4_diDooN18-z4XVTWQ==/109951166348336124.jpg?param=50y50" class="soft-size--round soft-style--box" alt="Shiroi">
+    
+    
+      <h2>Shiroi</h2>
+    
+    
+      <p>没有未来的未来不是我想要的未来</p>
+    
+
+    <div class="count-box">
+      <div class="count-box--item">
+        <svg class="icon icon-article" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M240.51564747 647.74217627h196.07203239c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806V165.10332731c0-33.18142087-30.16492806-60.32985613-60.32985612-60.32985611H245.04038668C225.43318342 104.7734712 210.35071939 119.85593522 210.35071939 139.46313845V617.57724821c0 16.59071043 13.57421762 30.16492806 30.16492808 30.16492806z m663.62841731-452.47392089v482.63884894c0 33.18142087-27.14843525 60.32985613-60.32985612 60.32985613H180.18579134c-33.18142087 0-60.32985613-27.14843525-60.32985612-60.32985613V195.26825538c-49.77213131 0-90.49478418 40.72265287-90.49478417 90.49478417v452.4739209c0 49.77213131 40.72265287 90.49478418 90.49478417 90.49478417h286.56681657c16.59071043 0 30.16492806 13.57421762 30.16492807 30.16492807s13.57421762 30.16492806 30.16492805 30.16492806h90.49478418c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806s13.57421762-30.16492806 30.16492807-30.16492807h286.56681657c49.77213131 0 90.49478418-40.72265287 90.49478417-90.49478417V285.76303955c0-49.77213131-40.72265287-90.49478418-90.49478417-90.49478417zM587.41232014 647.74217627h191.54729318c19.60720323 0 34.68966726-15.08246403 34.68966729-34.68966727V134.93839925c0-16.59071043-13.57421762-30.16492806-30.16492808-30.16492805H617.57724821c-30.16492806 0-60.32985613 27.14843525-60.32985612 60.32985611v452.4739209c0 16.59071043 13.57421762 30.16492806 30.16492805 30.16492806z" fill="currentColor"></path>
+</svg>
+        <span>38</span>
+      </div>
+      <div class="count-box--item">
+        <svg class="icon icon-categories" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M900.3614811 257.09082106h-339.81629553l-67.96326003-101.9448889c-19.41807444-29.12711113-48.54518557-43.69066667-82.52681443-43.69066667H123.6385189c-53.39970333 0-97.09036999 43.69066667-97.09037113 97.09036999v582.54222222c0 53.39970333 43.69066667 97.09036999 97.09037113 97.09037002h776.7229622c53.39970333 0 97.09036999-43.69066667 97.09037113-97.09037002V354.18119104c0-53.39970333-43.69066667-97.09036999-97.09037113-97.09036998z m-97.09036999 242.72592554H220.72888889c-24.27259221 0-48.54518557-24.27259221-48.54518556-48.54518556s24.27259221-48.54518557 48.54518556-48.54518444h582.54222222c24.27259221 0 48.54518557 24.27259221 48.54518556 48.54518444s-24.27259221 48.54518557-48.54518556 48.54518556z" fill="currentColor"></path>
+</svg>
+        4
+      </div>
+      <div class="count-box--item">
+        <svg class="icon icon-tags" viewBox="0 0 1098 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M283.42180005 272q0-28.38857157-20.09142843-48.48000001t-48.47999998-20.09142842-48.48000002 20.09142842-20.09142846 48.48000001 20.09142846 48.48 48.48000002 20.09142843 48.47999998-20.09142843 20.09142843-48.48zM855.0332285 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.03999997 263.58857157q-20.9142853 19.81714313-48.75428534 19.81714312-28.38857157 0-48.20571468-19.81714312l-383.04-383.58857157q-20.36571468-19.81714313-34.55999999-54.10285688t-14.19428534-62.6742853l0-222.85714313q0-27.84000002 20.36571469-48.20571469t48.2057147-20.36571466l222.85714313 0q28.38857157 0 62.6742853 14.19428529t54.65142842 34.55999999l383.04000001 382.49142843q19.81714313 20.9142853 19.81714314 48.75428532zM1060.74751475 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.04 263.58857157q-20.9142853 19.81714313-48.75428531 19.81714312-19.26857155 0-31.61142843-7.47428531t-28.38857159-24.13714314l251.79428534-251.7942853q19.81714313-19.81714313 19.81714308-48.20571469 0-27.84000002-19.81714308-48.75428531l-383.04000001-382.49142845q-20.36571468-20.36571468-54.65142842-34.55999999t-62.67428532-14.19428534l120 0q28.38857157 0 62.67428532 14.19428534t54.65142842 34.55999999l383.03999998 382.49142845q19.81714313 20.9142853 19.81714314 48.75428531z" fill="currentColor"></path>
+</svg>
+        40
+      </div>
+    </div>
+  </div>
+</section>
+
+      
+
+      
+<section class="widet-notice widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-title">
+    <svg class="icon icon-notice" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M512 945.02305225v28.15620663a24.27259221 24.27259221 0 0 1-24.27259221 24.27259335H394.0352a48.54518557 48.54518557 0 0 1-41.74885888-23.78714112l-110.68302222-184.47170332a132.04290333 132.04290333 0 0 1-17.47626667-48.54518557h118.4502511a200.97706667 200.97706667 0 0 1 76.21594113 14.56355556l20.38897777 133.49925888a48.54518557 48.54518557 0 0 0 36.40888888 27.67075555l16.01991111 2.91271112a24.27259221 24.27259221 0 0 1 20.38897778 25.72894889zM997.45185223 463.45481443a194.18074112 194.18074112 0 0 1-38.8361489 116.50844445 24.75804445 24.75804445 0 0 1-36.4088889 0l-34.95253333-34.95253333a24.27259221 24.27259221 0 0 1-2.91271111-30.58346667 97.09036999 97.09036999 0 0 0 0-106.79940665 24.27259221 24.27259221 0 0 1 2.91271111-30.58346666l34.95253333-34.95253334a24.75804445 24.75804445 0 0 1 18.93262223-7.28177777 26.2144 26.2144 0 0 1 17.47626667 9.70903665A194.18074112 194.18074112 0 0 1 997.45185223 463.45481443z m-194.18074112-388.36148111v776.72296335a48.54518557 48.54518557 0 0 1-48.54518556 48.54518443h-28.64165888a48.54518557 48.54518557 0 0 1-33.98163001-14.07810332l-145.63555556-143.20829668A291.27111111 291.27111111 0 0 0 342.57730333 657.63555556H172.18370333a145.63555556 145.63555556 0 0 1-145.63555556-145.63555556v-97.09036999a145.63555556 145.63555556 0 0 1 145.63555556-145.63555556h170.3936a291.27111111 291.27111111 0 0 0 206.31703779-85.43952668l145.63555555-143.20829554a48.54518557 48.54518557 0 0 1 33.98162888-14.07810446H754.72592555a48.54518557 48.54518557 0 0 1 48.54518556 48.54518555z" fill="currentColor"></path>
+</svg>
+    <span>NOTICE</span>
+  </div>
+  <div class="widget-body">
+    <p>没有未来的未来不是我想要的未来</p>
+  </div>
+</section>
+
+
+      <section class="widget-categorys widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-title">
+    <svg class="icon icon-categories" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M900.3614811 257.09082106h-339.81629553l-67.96326003-101.9448889c-19.41807444-29.12711113-48.54518557-43.69066667-82.52681443-43.69066667H123.6385189c-53.39970333 0-97.09036999 43.69066667-97.09037113 97.09036999v582.54222222c0 53.39970333 43.69066667 97.09036999 97.09037113 97.09037002h776.7229622c53.39970333 0 97.09036999-43.69066667 97.09037113-97.09037002V354.18119104c0-53.39970333-43.69066667-97.09036999-97.09037113-97.09036998z m-97.09036999 242.72592554H220.72888889c-24.27259221 0-48.54518557-24.27259221-48.54518556-48.54518556s24.27259221-48.54518557 48.54518556-48.54518444h582.54222222c24.27259221 0 48.54518557 24.27259221 48.54518556 48.54518444s-24.27259221 48.54518557-48.54518556 48.54518556z" fill="currentColor"></path>
+</svg>
+    <span>CATEGORYS</span>
+  </div>
+  <div class="widget-body">
+    <ul class="categorys-list">
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%B7%A5%E4%BD%9C%E5%BF%83%E5%BE%B7/">
+            工作心德 (36)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E4%BA%BA%E7%94%9F%E5%93%B2%E7%90%86/">
+            人生哲理 (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%B7%A5%E4%BD%9C%E5%BF%83%E5%BE%B7/%E7%AE%97%E6%B3%95/">
+            算法 (3)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E9%97%B2%E4%BD%99/">
+            闲余 (1)
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+</section>
+
+      <section class="widget-tags widget-item  layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-title">
+    <svg class="icon icon-tags" viewBox="0 0 1098 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M283.42180005 272q0-28.38857157-20.09142843-48.48000001t-48.47999998-20.09142842-48.48000002 20.09142842-20.09142846 48.48000001 20.09142846 48.48 48.48000002 20.09142843 48.47999998-20.09142843 20.09142843-48.48zM855.0332285 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.03999997 263.58857157q-20.9142853 19.81714313-48.75428534 19.81714312-28.38857157 0-48.20571468-19.81714312l-383.04-383.58857157q-20.36571468-19.81714313-34.55999999-54.10285688t-14.19428534-62.6742853l0-222.85714313q0-27.84000002 20.36571469-48.20571469t48.2057147-20.36571466l222.85714313 0q28.38857157 0 62.6742853 14.19428529t54.65142842 34.55999999l383.04000001 382.49142843q19.81714313 20.9142853 19.81714314 48.75428532zM1060.74751475 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.04 263.58857157q-20.9142853 19.81714313-48.75428531 19.81714312-19.26857155 0-31.61142843-7.47428531t-28.38857159-24.13714314l251.79428534-251.7942853q19.81714313-19.81714313 19.81714308-48.20571469 0-27.84000002-19.81714308-48.75428531l-383.04000001-382.49142845q-20.36571468-20.36571468-54.65142842-34.55999999t-62.67428532-14.19428534l120 0q28.38857157 0 62.67428532 14.19428534t54.65142842 34.55999999l383.03999998 382.49142845q19.81714313 20.9142853 19.81714314 48.75428531z" fill="currentColor"></path>
+</svg>
+    <span>TAGS</span>
+  </div>
+  <div class="widget-body">
+    <div class="tags-cloud">
+      <a href="/tags/ai/" style="font-size: 12.86px;" class="tags-cloud-3">ai</a> <a href="/tags/api/" style="font-size: 10px;" class="tags-cloud-0">api</a> <a href="/tags/chrome/" style="font-size: 10px;" class="tags-cloud-0">chrome</a> <a href="/tags/composer/" style="font-size: 12.86px;" class="tags-cloud-3">composer</a> <a href="/tags/curl/" style="font-size: 10px;" class="tags-cloud-0">curl</a> <a href="/tags/debug/" style="font-size: 10px;" class="tags-cloud-0">debug</a> <a href="/tags/docker/" style="font-size: 10px;" class="tags-cloud-0">docker</a> <a href="/tags/js/" style="font-size: 10px;" class="tags-cloud-0">js</a> <a href="/tags/laravel/" style="font-size: 14.29px;" class="tags-cloud-4">laravel</a> <a href="/tags/linux/" style="font-size: 10px;" class="tags-cloud-0">linux</a> <a href="/tags/mac/" style="font-size: 10px;" class="tags-cloud-0">mac</a> <a href="/tags/mysql/" style="font-size: 18.57px;" class="tags-cloud-9">mysql</a> <a href="/tags/nginx/" style="font-size: 17.14px;" class="tags-cloud-7">nginx</a> <a href="/tags/php/" style="font-size: 20px;" class="tags-cloud-10">php</a> <a href="/tags/phpstorm/" style="font-size: 10px;" class="tags-cloud-0">phpstorm</a> <a href="/tags/robot/" style="font-size: 10px;" class="tags-cloud-0">robot</a> <a href="/tags/shell/" style="font-size: 10px;" class="tags-cloud-0">shell</a> <a href="/tags/ssl/" style="font-size: 10px;" class="tags-cloud-0">ssl</a> <a href="/tags/sso/" style="font-size: 10px;" class="tags-cloud-0">sso</a> <a href="/tags/thinkphp/" style="font-size: 10px;" class="tags-cloud-0">thinkphp</a> <a href="/tags/trait/" style="font-size: 10px;" class="tags-cloud-0">trait</a> <a href="/tags/vue3/" style="font-size: 10px;" class="tags-cloud-0">vue3</a> <a href="/tags/webman/" style="font-size: 11.43px;" class="tags-cloud-1">webman</a> <a href="/tags/websocket/" style="font-size: 10px;" class="tags-cloud-0">websocket</a> <a href="/tags/%E5%86%85%E7%BD%AE%E5%87%BD%E6%95%B0/" style="font-size: 11.43px;" class="tags-cloud-1">内置函数</a> <a href="/tags/%E5%9F%9F%E5%90%8D%E9%85%8D%E7%BD%AE/" style="font-size: 10px;" class="tags-cloud-0">域名配置</a> <a href="/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B/" style="font-size: 10px;" class="tags-cloud-0">大模型</a> <a href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" style="font-size: 10px;" class="tags-cloud-0">微服务</a> <a href="/tags/%E5%BF%83%E5%BE%97/" style="font-size: 12.86px;" class="tags-cloud-3">心得</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 10px;" class="tags-cloud-0">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BC%98%E5%8C%96/" style="font-size: 10px;" class="tags-cloud-0">数据库优化</a> <a href="/tags/%E6%95%B0%E7%BB%84/" style="font-size: 12.86px;" class="tags-cloud-3">数组</a> <a href="/tags/%E6%99%BA%E5%95%86/" style="font-size: 10px;" class="tags-cloud-0">智商</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 10px;" class="tags-cloud-0">架构</a> <a href="/tags/%E7%94%9F%E4%BA%A7%E4%BA%8B%E6%95%85/" style="font-size: 10px;" class="tags-cloud-0">生产事故</a> <a href="/tags/%E7%A7%AF%E5%88%86%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;" class="tags-cloud-0">积分系统</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 15.71px;" class="tags-cloud-6">算法</a> <a href="/tags/%E7%B4%A2%E5%BC%95/" style="font-size: 10px;" class="tags-cloud-0">索引</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 11.43px;" class="tags-cloud-1">设计模式</a> <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" style="font-size: 10px;" class="tags-cloud-0">负载均衡</a>
+    </div>
+  </div>
+</section>
+    </div>
+  </article>
+</div>
+
+    <!-- footer container -->
+<footer id="footer" class="footer">
+  <div class="footer-container">
+    
+    <div class="social-icons">
+      
+        
+      
+        
+      
+        
+      
+        
+          <a href="https://weibo.com/u/7478297091" class="soft-size--primary soft-style--box" target="_blank" rel="noopener noreferrer">
+            <svg class="icon icon-weibo" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M385.682429 733.696q11.995429-19.456 6.290286-39.424t-25.746286-28.598857q-19.456-7.972571-41.691429-0.585143t-34.304 26.258286q-12.580571 19.456-7.460571 39.131429t24.576 28.891429 42.569143 1.462857 35.693714-27.136zM439.442429 664.576q4.534857-7.460571 1.974857-15.140571t-10.020571-10.605714q-7.972571-2.852571-16.310857 0.292571t-12.288 10.605714q-9.728 17.700571 7.460571 25.746286 7.972571 2.852571 16.603429-0.292571t12.580571-10.605714zM538.843572 725.723429q-25.746286 58.294857-90.258286 85.723429t-128 6.875429q-61.147429-19.456-84.260571-72.265143t3.730286-107.154286q26.843429-53.174857 86.601143-79.433143t120.32-10.825143q63.414857 16.603429 90.550857 68.315429t1.462857 108.836571zM717.165858 634.294857q-5.12-54.857143-50.834286-97.133714t-119.149714-62.317714-156.891429-11.995429q-127.414857 13.165714-211.163429 80.822857t-75.702857 151.113143q5.12 54.857143 50.834286 97.133714t119.149714 62.317714 156.891429 11.995429q127.414857-13.165714 211.163429-80.822857t75.702857-151.113143zM893.147572 636.562286q0 38.838857-21.138286 79.725714t-62.317714 78.262857-96.256 67.145143-129.170286 47.396571-154.550857 17.700571-157.110857-19.163429-137.435429-53.174857-98.011429-86.308571-37.156571-114.029714q0-65.682286 39.716571-139.995429t112.859429-147.456q96.548571-96.548571 195.145143-134.875429t140.873143 4.022857q37.156571 36.571429 11.410286 119.442286-2.267429 7.972571-0.585143 11.410286t5.705143 4.022857 8.265143-0.292571 7.68-1.974857l3.437714-1.170286q79.433143-33.718857 140.580571-33.718857t87.405714 34.889143q25.746286 35.986286 0 101.741714-1.170286 7.460571-2.56 11.410286t2.56 7.168 6.875429 4.315429 9.728 3.437714q32.548571 10.313143 58.88 26.843429t45.714286 46.592 19.456 66.56zM850.871001 279.990857q23.990857 26.843429 31.158857 62.025143t-3.730286 67.145143q-4.534857 13.165714-16.822857 19.456t-25.453714 2.267429q-13.165714-4.534857-19.456-16.822857t-2.267429-25.453714q11.410286-35.986286-13.677714-63.414857t-61.147429-19.968q-13.677714 2.852571-25.746286-4.534857t-14.262857-21.138286q-2.852571-13.677714 4.534857-25.453714t21.138286-14.555429q34.304-7.460571 68.022857 3.145143t57.709714 37.449143zM954.295001 186.88q49.737143 54.857143 64.292571 127.122286t-7.68 138.020571q-5.12 15.433143-19.456 22.820571t-29.696 2.267429-22.820571-19.456-2.852571-29.696q16.018286-46.884571 5.705143-98.304t-45.714286-90.258286q-35.401143-39.424-84.553143-54.564571t-98.889143-4.827429q-16.018286 3.437714-29.696-5.412571t-17.115429-24.868571 5.412571-29.403429 24.868571-16.822857q70.290286-14.848 139.410286 6.582857t118.857143 76.873143z"></path>
+</svg>
+          </a>
+        
+      
+        
+          <a href="https://github.com/hcr707305003" class="soft-size--primary soft-style--box" target="_blank" rel="noopener noreferrer">
+            <svg class="icon icon-github" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M64.6 512c0 195.6 125.4 361.9 300.1 422.9 23.5 5.9 19.9-10.8 19.9-22.2v-77.6c-135.8 15.9-141.3-74-150.5-89-18.5-31.5-61.9-39.5-49-54.5 31-15.9 62.5 4 98.9 58 26.4 39.1 77.9 32.5 104.1 26 5.7-23.5 17.9-44.5 34.7-60.9-140.7-25.2-199.4-111.1-199.4-213.3 0-49.5 16.4-95.1 48.4-131.8-20.4-60.6 1.9-112.4 4.9-120.1 58.2-5.2 118.5 41.6 123.3 45.3 33.1-8.9 70.8-13.7 112.9-13.7 42.4 0 80.3 4.9 113.5 13.9 11.3-8.6 67.3-48.8 121.4-43.9 2.9 7.7 24.7 58.3 5.5 118.1 32.5 36.8 49 82.8 49 132.4 0 102.3-59 188.3-200.2 213.2 23.5 23.3 38.1 55.5 38.1 91.1v112.7c0.8 9 0 17.9 15.1 17.9C832.7 877 960.4 709.4 960.4 512.1c0-247.5-200.6-447.9-447.9-447.9C265 64.1 64.6 264.5 64.6 512z"></path>
+</svg>
+          </a>
+        
+      
+        
+          <a href="https://twitter.com/hcr707305003" class="soft-size--primary soft-style--box" target="_blank" rel="noopener noreferrer">
+            <svg class="icon icon-twitter" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M962.285714 233.142857q-38.285714 56-92.571429 95.428571 0.571429 8 0.571429 24 0 74.285714-21.714286 148.285714t-66 142-105.428571 120.285714-147.428571 83.428571-184.571429 31.142857q-154.857143 0-283.428571-82.857143 20 2.285714 44.571429 2.285714 128.571429 0 229.142857-78.857143-60-1.142857-107.428571-36.857143t-65.142857-91.142857q18.857143 2.857143 34.857143 2.857143 24.571429 0 48.571429-6.285714-64-13.142857-106-63.714286t-42-117.428571l0-2.285714q38.857143 21.714286 83.428571 23.428571-37.714286-25.142857-60-65.714286t-22.285714-88q0-50.285714 25.142857-93.142857 69.142857 85.142857 168.285714 136.285714t212.285714 56.857143q-4.571429-21.714286-4.571429-42.285714 0-76.571429 54-130.571429t130.571429-54q80 0 134.857143 58.285714 62.285714-12 117.142857-44.571429-21.142857 65.714286-81.142857 101.714286 53.142857-5.714286 106.285714-28.571429z"></path>
+</svg>
+          </a>
+        
+      
+        
+          <a href="https://gitee.com/huchaoran" class="soft-size--primary soft-style--box" target="_blank" rel="noopener noreferrer">
+            <?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg t="1642592685187" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4819" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M512 1024C230.4 1024 0 793.6 0 512S230.4 0 512 0s512 230.4 512 512-230.4 512-512 512z m259.2-569.6H480c-12.8 0-25.6 12.8-25.6 25.6v64c0 12.8 12.8 25.6 25.6 25.6h176c12.8 0 25.6 12.8 25.6 25.6v12.8c0 41.6-35.2 76.8-76.8 76.8h-240c-12.8 0-25.6-12.8-25.6-25.6V416c0-41.6 35.2-76.8 76.8-76.8h355.2c12.8 0 25.6-12.8 25.6-25.6v-64c0-12.8-12.8-25.6-25.6-25.6H416c-105.6 0-188.8 86.4-188.8 188.8V768c0 12.8 12.8 25.6 25.6 25.6h374.4c92.8 0 169.6-76.8 169.6-169.6v-144c0-12.8-12.8-25.6-25.6-25.6z" fill="#888888" p-id="4820"></path></svg>
+          </a>
+        
+      
+    </div>
+     
+    <p>&copy; 2026 <a href="/" target="_blank">Shiroi</a></p>
+
+    
+
+    <p>Powered by <a href="https://hexo.io" target="_blank" rel="noopener noreferrer">Hexo</a></p>
+
+    <p>
+      <a href="javascript:;" rel="external nofollow noreferrer" id="theme-light">🌞 浅色</a>
+      <a href="javascript:;" rel="external nofollow noreferrer" id="theme-dark">🌛 深色</a>
+      <a href="javascript:;" rel="external nofollow noreferrer" id="theme-auto">🤖️ 自动</a>
+    </p>
+    <!-- 音频播放 -->
+    <link rel="stylesheet" href="/dist/APlayer.min.css">
+    <div id="music-box">
+      <div id="aplayer"></div>
+    </div>
+    <script type="text/javascript" src="/dist/APlayer.min.js"></script>
+    <script type="text/javascript" src="/dist/music.js"></script>
+    <!-- <script type="text/javascript" src="/dist/drag.js"></script>
+    <script>
+      dragBox(document.querySelector("#aplayer"), document.querySelector("#music-box"));
+    </script> -->
+  </div>
+</footer>
+  </div>
+
+  <div class="back-to-top-fixed soft-size--round soft-style--box">
+    <svg class="icon icon-back-to-top" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+      <path d="M725.333333 426.666667c-12.8 0-21.333333-4.266667-29.866667-12.8l-213.333333-213.333333c-17.066667-17.066667-17.066667-42.666667 0-59.733333s42.666667-17.066667 59.733333 0l213.333333 213.333333c17.066667 17.066667 17.066667 42.666667 0 59.733333C746.666667 422.4 738.133333 426.666667 725.333333 426.666667z"></path>
+      <path d="M298.666667 426.666667c-12.8 0-21.333333-4.266667-29.866667-12.8-17.066667-17.066667-17.066667-42.666667 0-59.733333l213.333333-213.333333c17.066667-17.066667 42.666667-17.066667 59.733333 0s17.066667 42.666667 0 59.733333l-213.333333 213.333333C320 422.4 311.466667 426.666667 298.666667 426.666667z"></path>
+      <path d="M512 896c-25.6 0-42.666667-17.066667-42.666667-42.666667L469.333333 170.666667c0-25.6 17.066667-42.666667 42.666667-42.666667s42.666667 17.066667 42.666667 42.666667l0 682.666667C554.666667 878.933333 537.6 896 512 896z"></path>
+    </svg>
+  </div>
+
+  
+  <!-- aplayer -->
+
+
+<!-- dplayer -->
+
+
+
+
+  
+
+
+  
+
+
+  
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+  
+  <!-- 尾部用户自定义相关内容 -->
+</body>
+</html>
