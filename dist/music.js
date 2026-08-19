@@ -24,7 +24,7 @@ const ap = new APlayer({
     {
       name: "Now Loading!!!!",
       artist: '高田忧希、山口爱、户田惠、竹尾步美',
-      url: '/music/Now Loading!!!!.m4a',
+      url: '/music/NowLoading!!!!.m4a',
       cover: '//y.qq.com/music/photo_new/T002R300x300M0000033MkZL3GaqMv_1.jpg?max_age=2592000',
     }
   ]
